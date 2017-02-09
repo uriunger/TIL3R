@@ -122,21 +122,27 @@ var resizeAndMove = function(choice){
   activeClient.geometry = geo;
 }
 
+var reposition = function(wu, hu, fx, fy, w, h) {
+  if (isIgnored(activeClient)) {
+    print("client ignored, no resize and move");
+    return;
+  }
+  var workGeo = workspace.clientArea(KWin.PlacementArea, activeClient.screen, 1);
+  var geo = activeClient.geometry;
+  geo.x = workGeo.x + fx * workGeo.width / wu;
+  geo.y = workGeo.y + fy * workGeo.height / hu;
+  geo.width = w * workGeo.width / wu;
+  geo.height = h * workGeo.height / hu;
+  print("new geometry, x: " + geo.x + " y: " + geo.y + " width: " + geo.width + " height: " + geo.height);
+  activeClient.geometry = geo;
+}
+
+
 print("TIL3R active");
 
-registerShortcut("TIL3R: left third, full height", "TIL3R: left third, full height", "Meta+Alt+1", function () {resizeAndMove(11)});
-registerShortcut("TIL3R: middle third, full height", "TIL3R: middle third, full height", "Meta+Alt+2", function () {resizeAndMove(12)});
-registerShortcut("TIL3R: right third, full height", "TIL3R: right third, full height", "Meta+Alt+3", function () {resizeAndMove(13)});
-registerShortcut("TIL3R: left third, upper half", "TIL3R: left third, upper half", "Meta+Alt+4", function () {resizeAndMove(14)});
-registerShortcut("TIL3R: middle third, upper half", "TIL3R: middle third, upper half", "Meta+Alt+5", function () {resizeAndMove(15)});
-registerShortcut("TIL3R: right third, upper half", "TIL3R: right third, upper half", "Meta+Alt+6", function () {resizeAndMove(16)});
-registerShortcut("TIL3R: left third, lower half", "TIL3R: left third, lower half", "Meta+Alt+7", function () {resizeAndMove(17)});
-registerShortcut("TIL3R: middle third, lower half", "TIL3R: middle third, lower half", "Meta+Alt+8", function () {resizeAndMove(18)});
-registerShortcut("TIL3R: right third, lower half", "TIL3R: right third, lower half", "Meta+Alt+9", function () {resizeAndMove(19)});
-
-registerShortcut("TIL3R: left two thirds, full height", "TIL3R: left two thirds, full height", "Meta+Ctrl+1", function () {resizeAndMove(21)});
-registerShortcut("TIL3R: right two thirds, full height", "TIL3R: right two thirds, full height", "Meta+Ctrl+2", function () {resizeAndMove(22)});
-registerShortcut("TIL3R: left two thirds, upper half", "TIL3R: left two thirds, upper half", "Meta+Ctrl+4", function () {resizeAndMove(24)});
-registerShortcut("TIL3R: right two thirds, upper half", "TIL3R: right two thirds, upper half", "Meta+Ctrl+5", function () {resizeAndMove(25)});
-registerShortcut("TIL3R: left two thirds, lower half", "TIL3R: left two thirds, lower half", "Meta+Ctrl+7", function () {resizeAndMove(27)});
-registerShortcut("TIL3R: right two thirds, lower half", "TIL3R: right two thirds, lower half", "Meta+Ctrl+8", function () {resizeAndMove(28)});
+registerShortcut("TIL3R: 1", "TIL3R: 1", "Meta+1", function () {reposition(8,8,2,4,4,4)});
+registerShortcut("TIL3R: 2", "TIL3R: 2", "Meta+2", function () {reposition(8,8,2,0,4,4)});
+registerShortcut("TIL3R: 3", "TIL3R: 3", "Meta+3", function () {reposition(8,8,6,0,2,4)});
+registerShortcut("TIL3R: 4", "TIL3R: 4", "Meta+4", function () {reposition(8,8,6,4,2,4)});
+registerShortcut("TIL3R: 5", "TIL3R: 5", "Meta+5", function () {reposition(8,8,0,0,2,4)});
+registerShortcut("TIL3R: 6", "TIL3R: 6", "Meta+6", function () {reposition(8,8,0,4,2,4)});
